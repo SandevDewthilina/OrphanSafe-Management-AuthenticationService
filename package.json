@@ -1,0 +1,32 @@
+{
+  "name": "orphansafe-management-authenticationservice",
+  "version": "1.0.0",
+  "description": "authenticationservice for orphansafe backend",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SandevDewthilina/OrphanSafe-Management-AuthenticationService.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SandevDewthilina/OrphanSafe-Management-AuthenticationService/issues"
+  },
+  "homepage": "https://github.com/SandevDewthilina/OrphanSafe-Management-AuthenticationService#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.0.1",
+    "pg": "^8.11.3"
+  }
+}

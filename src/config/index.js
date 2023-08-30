@@ -1,0 +1,22 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+const PORT = process.env.PORT || 5001;
+const NODE_ENV = process.env.NODE_ENV;
+const JWT_SECRET = process.env.JWT_SECRET;
+const POSTGRESQL_HOST = process.env.POSTGRESQL_HOST;
+const POSTGRESQL_PORT = process.env.POSTGRESQL_PORT;
+const POSTGRESQL_USERNAME = process.env.POSTGRESQL_USERNAME;
+const POSTGRESQL_DATABASE = process.env.POSTGRESQL_DATABASE;
+const POSTGRESQL_PASSWORD = process.env.POSTGRESQL_PASSWORD;
+
+export {
+  PORT,
+  NODE_ENV,
+  JWT_SECRET,
+  POSTGRESQL_HOST,
+  POSTGRESQL_USERNAME,
+  POSTGRESQL_DATABASE,
+  POSTGRESQL_PASSWORD,
+  POSTGRESQL_PORT,
+};
