@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-runMigrations()
+// runMigrations()
 
 // routes
 app.use("/api/users", userRoutes);

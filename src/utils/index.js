@@ -28,7 +28,7 @@ const generateJWT = (res, { userId, email, roleId, roleName }) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: NODE_ENV !== "development",
-    sameSite: NODE_ENV === "development" ? "none" : "strict",
+    sameSite: "strict",
     maxAge: 1 * 60 * 60 * 1000,
   });
 };

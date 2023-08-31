@@ -42,8 +42,15 @@ const authUser = asyncHandler(async (req, res) => {
         roleId: "1",
         roleName: "systemAdministrator",
       });
+
       return res.status(200).json({
         success: true,
+        userInfo: {
+          userId: user.Id,
+          email: user.Email,
+          roleId: "1",
+          roleName: "systemAdministrator",
+        },
       });
     }
   }
@@ -102,7 +109,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // route PUT /api/users/profile
 // @access Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  console.log(req.userInfo)
+  console.log(req.userInfo);
   return res.status(200).json("user profile updated");
 });
 
