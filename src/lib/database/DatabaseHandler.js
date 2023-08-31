@@ -26,9 +26,10 @@ class DatabaseHandler {
     return this.pool;
   }
 
-  static executeSingleQuery = async (query, args) => {
+  static executeSingleQueryAsync = async (query, args) => {
     const pool = this.getPool();
     const result = await pool.query(query, args);
+    console.warn("DB QUERY: ", query, args);
     return result.rows;
   };
 
