@@ -16,7 +16,7 @@ export const insertUserAsync = async ({
 }) => {
   return await DatabaseHandler.executeSingleQueryAsync(
     `INSERT INTO "User" ("Username", "Name", "Email","PhoneNumber","PasswordHash") 
-    values($1,$2,$3,$4,$5) RETURNING "Username", "Name", "Email", "PhoneNumber"`,
+    values($1,$2,$3,$4,$5)`,
     [username, name, email, phoneNumber, hashedPassword]
   );
 };

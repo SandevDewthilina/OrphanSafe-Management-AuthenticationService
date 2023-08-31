@@ -102,7 +102,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // route PUT /api/users/profile
 // @access Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  console.log(req.userInfo);
+  console.log(req.userInfo)
   return res.status(200).json("user profile updated");
 });
 
