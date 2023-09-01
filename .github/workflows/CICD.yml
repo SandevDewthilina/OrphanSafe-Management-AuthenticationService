@@ -1,6 +1,9 @@
 name: Build and deploy test system
 
 on:
+  push:
+    branches: 
+      - "testbranch"
   workflow_dispatch:
 
 jobs:
@@ -11,7 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      run: docker ps
+    
       # run: docker build . --file Dockerfile --tag test-image:$(date +%s)
-      run: docker build . --file Dockerfile --tag test-image:$(date +%s)
-    #- name: Run docker compose file
-     # run: docker compose up
+      # run: docker build . --file Dockerfile --tag test-image:latest
+    # - name: Run docker compose file
+    #  run: docker compose up
