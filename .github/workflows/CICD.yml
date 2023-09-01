@@ -16,4 +16,4 @@ jobs:
     - name: Build the Docker image
       run: echo "sandevdsic123" | sudo -S sudo docker build . --file Dockerfile --tag auth-service-testbranch-image:latest
     - name: Execute dokcer compose file
-      run: echo "sandevdsic123" | sudo -S sudo docker compose up
+      run: echo "sandevdsic123" | sudo -S sudo docker compose up -d
