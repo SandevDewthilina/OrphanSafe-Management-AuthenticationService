@@ -1,0 +1,17 @@
+name: Build and deploy test system
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: self-hosted
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      # run: docker build . --file Dockerfile --tag test-image:$(date +%s)
+      run: docker build . --file Dockerfile --tag test-image:$(date +%s)
+    #- name: Run docker compose file
+     # run: docker compose up
