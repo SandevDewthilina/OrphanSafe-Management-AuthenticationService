@@ -9,6 +9,7 @@ import {
   generateJWT,
   generatePassword,
 } from "../utils/index.js";
+import {getChannel, publishMessage, subscribeMessage} from '../lib/rabbitmq/index.js'
 
 // @desc Auth user/ set token
 // route POST /api/users/auth
@@ -91,6 +92,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
+  // await publishMessage(getChannel(), "test_queue", "a user logged out");
+  // await consumeMessage(getChannel(), null, "test_queue")
   return res.status(200).json("User logged out");
 });
 
