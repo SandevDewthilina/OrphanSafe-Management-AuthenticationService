@@ -9,6 +9,13 @@ import {
   generateJWT,
   generatePassword,
 } from "../utils/index.js";
+import {
+  getChannel,
+  publishMessage,
+  subscribeMessage,
+} from "../lib/rabbitmq/index.js";
+import { NOTIFICATION_SERVICE_BINDING_KEY } from "../config/index.js";
+import { unicastNotificationAsync } from "../services/notificationService.js";
 
 // @desc Auth user/ set token
 // route POST /api/users/auth
@@ -42,6 +49,12 @@ const authUser = asyncHandler(async (req, res) => {
         roleId: "1",
         roleName: "systemAdministrator",
       });
+
+      await unicastNotificationAsync(
+        `Sign in Successful`,
+        `Your have logged in to your account ${user.Email} `,
+        user.Id
+      );
 
       return res.status(200).json({
         success: true,

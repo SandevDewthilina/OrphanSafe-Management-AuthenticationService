@@ -20,3 +20,10 @@ export const insertUserAsync = async ({
     [username, name, email, phoneNumber, hashedPassword]
   );
 };
+
+export const getUserByIdAsync = async (id) => {
+  return await DatabaseHandler.executeSingleQueryAsync(
+    `SELECT * FROM "User" WHERE "Id" = $1`,
+    [id]
+  );
+};
