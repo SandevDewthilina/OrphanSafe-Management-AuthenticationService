@@ -28,9 +28,10 @@ export const getChannel = () => {
 };
 
 // publish a message
-export const publishMessage = async (channel, binding_key, message) => {
+export const publishMessage = async (channel, binding_key, payload) => {
   try {
-    await channel.publish(EXCHANGE_NAME, binding_key, Buffer.from(message));
+    await channel.publish(EXCHANGE_NAME, binding_key, Buffer.from(JSON.stringify(payload)));
+    console.log('message publish to ', binding_key, payload)
   } catch (error) {
     throw error;
   }
@@ -92,6 +93,13 @@ export const RPCObserver = async (RPC_QUEUE_NAME) => {
   );
 };
 
+
+// RPC Request
+export const RPCRequest = async (RPC_QUEUE_NAME, payload) => {
+  const uuid = uuid4();
+  return await requestData(RPC_QUEUE_NAME, payload, uuid);
+};
+
 const requestData = async (RPC_QUEUE_NAME, payload, uuid) => {
   const channel = await getChannel();
 
@@ -123,10 +131,4 @@ const requestData = async (RPC_QUEUE_NAME, payload, uuid) => {
       }
     );
   });
-};
-
-// RPC Request
-export const RPCRequest = async (RPC_QUEUE_NAME, payload) => {
-  const uuid = uuid4();
-  return await requestData(RPC_QUEUE_NAME, payload, uuid);
 };
