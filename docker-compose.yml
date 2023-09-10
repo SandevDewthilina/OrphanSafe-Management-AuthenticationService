@@ -1,0 +1,23 @@
+version: '3.1'
+services:
+  auth-service:
+    image: auth-service-testbranch-image
+    # command: npm run dev
+    # volumes:
+    #   - .:/usr/app/
+    #   - /usr/app/node_modules
+    ports:
+      - "5000:5000"
+    network_mode: host
+    restart: always
+  #   depends_on:
+  #     - postgres
+  
+  # postgres-central-db:
+  #   image: postgres:9.6.2-alpine
+  #   environment:
+  #     POSTGRES_USER: todoapp
+  #     POSTGRES_DB: todos
+# networks:
+#   service-network:
+#     driver: bridge
