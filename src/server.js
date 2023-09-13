@@ -18,7 +18,7 @@ RPCObserver(AUTH_SERVICE_RPC);
 
 // routes
 app.use("/api/users", userRoutes);
-app.get("/api", (req, res) => res.status(200).json("service is listening"));
+app.get("/api", (req, res) => res.status(200).json("service is listening!"));
 
 //error handling
 app.use(notFound);
