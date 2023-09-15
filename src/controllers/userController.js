@@ -43,11 +43,22 @@ const authUser = asyncHandler(async (req, res) => {
     } else {
       // login success
       // create JWT and pass through cookie
+
+      let role;
+
+      if (user.Email === "admin@orphansafe.com") {
+        role = "systemManager";
+      } else if (user.Email === "ravini@orphansafe.com") {
+        role = "externalParty";
+      } else if (user.Email === "thamindu@orphansafe.com") {
+        role = "orphanageManager";
+      }
+
       generateJWT(res, {
         userId: user.Id,
         email: user.Email,
         roleId: "1",
-        roleName: "systemAdministrator",
+        roleName: role,
       });
 
       await unicastNotificationAsync(
@@ -62,7 +73,7 @@ const authUser = asyncHandler(async (req, res) => {
           userId: user.Id,
           email: user.Email,
           roleId: "1",
-          roleName: "systemAdministrator",
+          roleName: role,
         },
       });
     }
