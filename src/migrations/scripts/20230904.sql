@@ -92,3 +92,21 @@ CREATE TABLE "ProfileVersion" (
       REFERENCES "ChildProfile"("Id") ON DELETE CASCADE
 );
 
+CREATE TABLE "Orphanage" (
+  "Id" uuid NOT NULL DEFAULT gen_random_uuid(),
+  "RegistrationId" varchar(20) NOT NULL,
+  "Name" varchar(225) NOT NULL,
+  "Capacity" int NOT NULL,
+  "RegDate" date NOT NULL,
+  "City" varchar(255) NOT NULL,
+  "District" varchar(255) NOT NULL,
+  "FoundeName" varchar(255) NOT NULL,
+  "Address" varchar(255) NOT NULL,
+  "PhoneNumber" int NOT NULL,
+  "Email" varchar(255) NOT NULL,
+  "CertificateId" int NOT NULL,
+  "HousePlaneDocumentId" int NOT NULL,
+  "LandReportDocumentId" int NOT NULL,
+  PRIMARY KEY ("Id","RegistrationId")
+);
+
