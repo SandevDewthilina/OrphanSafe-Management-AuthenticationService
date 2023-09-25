@@ -16,20 +16,6 @@ CREATE TABLE "ChildProfile" (
       REFERENCES "User"("Id") ON DELETE CASCADE
 );
 
-CREATE TABLE "Case" (
-  "Id" SERIAL PRIMARY KEY,
-  "CaseName" varchar(225) NOT NULL,
-  "State" varchar(10) NOT NULL,
-  "ChildProfileId" uuid NOT NULL,
-  "CaseOwnerId" uuid NOT NULL,
-  CONSTRAINT "FK_Case.CaseOwnerId"
-    FOREIGN KEY ("CaseOwnerId")
-      REFERENCES "User"("Id") ON DELETE CASCADE,
-  CONSTRAINT "FK_Case.ChildProfileId"
-    FOREIGN KEY ("ChildProfileId")
-      REFERENCES "ChildProfile"("Id") ON DELETE CASCADE
-);
-
 CREATE TYPE approval_status AS ENUM ('CREATED', 'DELETED', 'ACCEPT', 'REJECT');
 
 CREATE TABLE "ApprovalLog" (
@@ -106,13 +92,21 @@ CREATE TABLE "ProfileVersion" (
       REFERENCES "ChildProfile"("Id") ON DELETE CASCADE
 );
 
-CREATE TABLE "CaseLog" (
-  "Id" int PRIMARY KEY,
-  "CaseId" int NOT NULL,
-  "LogDescription" varchar(225) NOT NULL,
-  "LoggedDateTime" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "DocumentCollectionID" int,
-  CONSTRAINT "FK_CaseLog.CaseId"
-    FOREIGN KEY ("CaseId")
-      REFERENCES "Case"("Id") ON DELETE CASCADE
+CREATE TABLE "Orphanage" (
+  "Id" uuid NOT NULL DEFAULT gen_random_uuid(),
+  "RegistrationId" varchar(20) NOT NULL,
+  "Name" varchar(225) NOT NULL,
+  "Capacity" int NOT NULL,
+  "RegDate" date NOT NULL,
+  "City" varchar(255) NOT NULL,
+  "District" varchar(255) NOT NULL,
+  "FoundeName" varchar(255) NOT NULL,
+  "Address" varchar(255) NOT NULL,
+  "PhoneNumber" int NOT NULL,
+  "Email" varchar(255) NOT NULL,
+  "CertificateId" int NOT NULL,
+  "HousePlaneDocumentId" int NOT NULL,
+  "LandReportDocumentId" int NOT NULL,
+  PRIMARY KEY ("Id","RegistrationId")
 );
+
