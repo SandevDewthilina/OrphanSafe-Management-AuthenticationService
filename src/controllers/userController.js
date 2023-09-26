@@ -9,12 +9,6 @@ import {
   generateJWT,
   generatePassword,
 } from "../utils/index.js";
-import {
-  getChannel,
-  publishMessage,
-  subscribeMessage,
-} from "../lib/rabbitmq/index.js";
-import { NOTIFICATION_SERVICE_BINDING_KEY } from "../config/index.js";
 import { unicastNotificationAsync } from "../services/notificationService.js";
 
 // @desc Auth user/ set token
@@ -63,7 +57,7 @@ const authUser = asyncHandler(async (req, res) => {
 
       await unicastNotificationAsync(
         `Sign in Successful`,
-        `Your have logged in to your account ${user.Email} `,
+        `Your have logged in to your account ${user.Email}`,
         user.Id
       );
 
