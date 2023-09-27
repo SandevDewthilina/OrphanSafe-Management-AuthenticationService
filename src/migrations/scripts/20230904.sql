@@ -110,3 +110,4 @@ CREATE TABLE "Orphanage" (
   PRIMARY KEY ("Id","RegistrationId")
 );
 
+alter table "Role" add constraint RolenameUniqueness UNIQUE("Name");
