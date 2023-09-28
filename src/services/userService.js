@@ -2,6 +2,7 @@ import DatabaseHandler from "../lib/database/DatabaseHandler.js";
 import { generatePassword } from "../utils/index.js";
 import { RPCRequest } from "../lib/rabbitmq/index.js";
 import { DOCUMENT_SERVICE_RPC } from "../config/index.js";
+import {uploadSingleFileAsync} from '../lib/aws/index.js'
 
 export const getUserByEmailAsync = async (email) => {
   return await DatabaseHandler.executeSingleQueryAsync(
@@ -232,6 +233,8 @@ export const registerOrphanageAsync = async (
     if (!newOrphanageId) {
       throw new Error("orphanage not created");
     }
+
+    files.map(async (file) => await uploadSingleFileAsync(`orphanageFiles/${newOrphanageId}/`, files[0]))
 
     const hashedPassword = await generatePassword("admin123");
 

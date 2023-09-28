@@ -181,6 +181,6 @@ export const getRolesOfUser = asyncHandler(async (req, res) => {
 // route POST /api/users/registerOrphanage
 // @access Public
 export const registerOrphanage = asyncHandler(async (req, res) => {
-  const results = await registerOrphanageAsync(req.files,req.body.otherInfo);
+  const results = await registerOrphanageAsync(req.files,JSON.parse(req.body.otherInfo));
   return res.status(200).json(results);
 });

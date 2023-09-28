@@ -2,7 +2,8 @@ import amqplib from "amqplib";
 import { v4 as uuid4 } from "uuid";
 import {
   MESSAGE_BROKER_URL,
-  EXCHANGE_NAME
+  EXCHANGE_NAME,
+  AUTH_SERVICE_BINDING_KEY
 } from "../../config/index.js";
 import { subscribeEvents } from "../../services/eventSubscribeService.js";
 /* <===================RABBITMQ UTILS====================> */
@@ -77,7 +78,7 @@ const requestData = async (RPC_QUEUE_NAME, requestPayload, uuid) => {
       const timeout = setTimeout(() => {
         channel.close();
         resolve("API could not fullfil the request!");
-      }, 8000);
+      }, 10000);
       channel.consume(
         q.queue,
         (msg) => {
@@ -109,6 +110,7 @@ export const RPCObserver = async (RPC_QUEUE_NAME) => {
   await channel.assertQueue(RPC_QUEUE_NAME, {
     durable: false,
   });
+
   channel.prefetch(1);
   channel.consume(
     RPC_QUEUE_NAME,

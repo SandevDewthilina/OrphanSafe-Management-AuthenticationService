@@ -22,3 +22,7 @@ export const NOTIFICATION_SERVICE_RPC = process.env.NOTIFICATION_SERVICE_RPC;
 export const DOCUMENT_SERVICE_BINDING_KEY =
   process.env.DOCUMENT_SERVICE_BINDING_KEY;
 export const DOCUMENT_SERVICE_RPC = process.env.DOCUMENT_SERVICE_RPC;
+export const S3_REIGON = process.env.S3_REIGON
+export const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID
+export const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY
+export const S3_BUCKET = process.env.S3_BUCKET
