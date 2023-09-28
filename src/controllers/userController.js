@@ -10,7 +10,8 @@ import {
   assignUserToRoleAsync,
   getUsersInRoleAsync,
   getRolesOfUserAsync,
-  registerOrphanageAsync
+  registerOrphanageAsync,
+  registerUserAsync
 } from "../services/userService.js";
 import {
   comparePassword,
@@ -51,6 +52,8 @@ export const authUser = asyncHandler(async (req, res) => {
 
       if (!role) return res.status(401).json("no roles found for user");
 
+      if (role === 'socialWorker')
+
       generateJWT(res, {
         userId: user.Id,
         email: user.Email,
@@ -71,6 +74,7 @@ export const authUser = asyncHandler(async (req, res) => {
           email: user.Email,
           roleId: role.Id,
           roleName: role.Name,
+          orphanageId: user.OrphanageId
         },
       });
     }
@@ -81,43 +85,10 @@ export const authUser = asyncHandler(async (req, res) => {
 // route POST /api/users/register
 // @access Public
 export const registerUser = asyncHandler(async (req, res) => {
-  const {
-    email,
-    username,
-    name,
-    phoneNumber,
-    password,
-    orphanageId,
-    address,
-    nic,
-    gender,
-    dob,
-  } = req.body;
-
-  const results = await getUserByEmailAsync(email);
-
-  if (results.length > 0) {
-    res.status(400);
-    throw new Error("Email Already Exists");
-  } else {
-    const hashedPassword = await generatePassword(password);
-    const results = await insertUserAsync({
-      email,
-      username,
-      name,
-      phoneNumber,
-      hashedPassword,
-      orphanageId,
-      address,
-      nic,
-      gender,
-      dob,
-    });
-    return res.status(201).json({
-      success: true,
-      userCreated: results[0],
-    });
-  }
+  return res.status(201).json({
+    success: true,
+    userCreated: await registerUserAsync(req.body),
+  });
 });
 
 // @desc Auth user logout
@@ -211,6 +182,6 @@ export const getRolesOfUser = asyncHandler(async (req, res) => {
 // route POST /api/users/registerOrphanage
 // @access Public
 export const registerOrphanage = asyncHandler(async (req, res) => {
-  const results = await registerOrphanageAsync(req.body);
+  const results = await registerOrphanageAsync(req.files,req.body.otherInfo);
   return res.status(200).json(results);
 });

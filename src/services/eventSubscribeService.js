@@ -1,6 +1,6 @@
-import { getUserByIdAsync } from "./userService.js";
+import { registerUserAsync } from "./userService.js";
 
-export const subscribeEvents = (payload) => {
+export const subscribeEvents = async (payload) => {
   // parse data
   payload = JSON.parse(data.content.toString());
 
@@ -8,8 +8,9 @@ export const subscribeEvents = (payload) => {
 
   // manage event
   switch (event) {
-    case "DELETE_USER_BY_ID":
-      break;
+    case "REGISTER_USER":
+      await registerUserAsync(data)
+      return 
     default:
       break;
   }

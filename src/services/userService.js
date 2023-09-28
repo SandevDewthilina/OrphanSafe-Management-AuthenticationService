@@ -1,5 +1,7 @@
 import DatabaseHandler from "../lib/database/DatabaseHandler.js";
 import { generatePassword } from "../utils/index.js";
+import { RPCRequest } from "../lib/rabbitmq/index.js";
+import { DOCUMENT_SERVICE_RPC } from "../config/index.js";
 
 export const getUserByEmailAsync = async (email) => {
   return await DatabaseHandler.executeSingleQueryAsync(
@@ -8,12 +10,46 @@ export const getUserByEmailAsync = async (email) => {
   );
 };
 
+export const registerUserAsync = async ({
+  email,
+  username,
+  name,
+  phoneNumber,
+  password,
+  orphanageId,
+  address,
+  nic,
+  gender,
+  dob,
+}) => {
+  const results = await getUserByEmailAsync(email);
+
+  if (results.length > 0) {
+    throw new Error("Email Already Exists");
+  } else {
+    const hashedPassword = await generatePassword(password);
+    const results = await insertUserAsync({
+      email,
+      username,
+      name,
+      phoneNumber,
+      hashedPassword,
+      orphanageId,
+      address,
+      nic,
+      gender,
+      dob,
+    });
+    return results[0];
+  }
+};
+
 export const getOrphanageByRegistrationIdAsync = async (regId) => {
   return await DatabaseHandler.executeSingleQueryAsync(
     'SELECT * FROM "Orphanage" WHERE "RegistrationId" = $1 LIMIT 1',
     [regId]
   );
-}
+};
 
 export const insertUserAsync = async ({
   email,
@@ -136,28 +172,32 @@ export const getRolesOfUserAsync = async (userId) => {
   );
 };
 
-export const registerOrphanageAsync = async ({
-  name,
-  registeredDate,
-  capacity,
-  registrationId,
-  city,
-  district,
-  founderName,
-  address,
-  phoneNumber,
-  email,
-  user_email,
-  user_username,
-  user_name,
-  user_phoneNumber,
-  user_address,
-  user_nic,
-  user_gender,
-  user_dob
-}) => {
-  return await DatabaseHandler.executeTransaction(async (client) => {
+export const registerOrphanageAsync = async (
+  files,
+  {
+    name,
+    registeredDate,
+    capacity,
+    registrationId,
+    city,
+    district,
+    founderName,
+    address,
+    phoneNumber,
+    email,
+    user_email,
+    user_username,
+    user_name,
+    user_phoneNumber,
+    user_address,
+    user_nic,
+    user_gender,
+    user_dob,
+  }
+) => {
+  // await RPCRequest(DOCUMENT_SERVICE_RPC, {event: "UPLOAD_FILES", data: {path: `test/test`, files: files}})
 
+  return await DatabaseHandler.executeTransaction(async (client) => {
     const orphResults = await getOrphanageByRegistrationIdAsync(registrationId);
 
     if (orphResults.length > 0) {
@@ -188,12 +228,12 @@ export const registerOrphanageAsync = async ({
       throw new Error("user already registered for an orphanage");
     }
 
-    const newOrphanageId = result1.rows[0]['Id'];
+    const newOrphanageId = result1.rows[0]["Id"];
     if (!newOrphanageId) {
       throw new Error("orphanage not created");
     }
 
-    const hashedPassword = await generatePassword('admin123');
+    const hashedPassword = await generatePassword("admin123");
 
     const result2 = await client.query(
       `INSERT INTO "User"(
@@ -214,21 +254,21 @@ export const registerOrphanageAsync = async ({
       ]
     );
 
-    const newUserId = result2.rows[0]['Id'];
+    const newUserId = result2.rows[0]["Id"];
 
     const roleResult = await client.query(
       `SELECT * FROM "Role" WHERE "Name" = $1 LIMIT 1;`,
-      ['orphanageManager']
-    )
+      ["orphanageManager"]
+    );
 
     await client.query(
       `INSERT INTO "UserRole"("UserId", "RoleId") values ($1, $2) RETURNING *`,
-      [newUserId, roleResult.rows[0]['Id']]
-    )
+      [newUserId, roleResult.rows[0]["Id"]]
+    );
 
     return {
       createdUserId: newUserId,
-      createdOrphanageId: newOrphanageId
+      createdOrphanageId: newOrphanageId,
     };
   });
 };

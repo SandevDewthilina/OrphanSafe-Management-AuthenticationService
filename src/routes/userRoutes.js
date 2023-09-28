@@ -12,15 +12,20 @@ import {
   assignUserToRole,
   getUsersInRole,
   getRolesOfUser,
-  registerOrphanage
+  registerOrphanage,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { upload } from "../middleware/s3UploadMiddleware.js";
 
 const router = express.Router();
 
 router.post("/auth", authUser);
 router.post("/register", registerUser);
-router.post("/registerOrphanage", registerOrphanage);
+router.post(
+  "/registerOrphanage",
+  upload.array("file"),
+  registerOrphanage
+);
 router.post("/logout", logoutUser);
 router
   .route("/profile")
@@ -35,7 +40,7 @@ router
   .delete(protect, deleteRole);
 
 router.route("/userRole").post(protect, assignUserToRole);
-router.route('/getUsersInRole').get(protect, getUsersInRole);
-router.route('/getRolesOfUser').get(protect, getRolesOfUser);
+router.route("/getUsersInRole").get(protect, getUsersInRole);
+router.route("/getRolesOfUser").get(protect, getRolesOfUser);
 
 export default router;
