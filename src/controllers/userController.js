@@ -11,7 +11,7 @@ import {
   getUsersInRoleAsync,
   getRolesOfUserAsync,
   registerOrphanageAsync,
-  registerUserAsync
+  registerUserAsync,
 } from "../services/userService.js";
 import {
   comparePassword,
@@ -52,12 +52,12 @@ export const authUser = asyncHandler(async (req, res) => {
 
       if (!role) return res.status(401).json("no roles found for user");
 
-
       generateJWT(res, {
         userId: user.Id,
         email: user.Email,
-        roleId: "1",
+        roleId: role.Id,
         roleName: role.Name,
+        orphanageId: user.OrphanageId,
       });
 
       await unicastNotificationAsync(
@@ -73,7 +73,7 @@ export const authUser = asyncHandler(async (req, res) => {
           email: user.Email,
           roleId: role.Id,
           roleName: role.Name,
-          orphanageId: user.OrphanageId
+          orphanageId: user.OrphanageId,
         },
       });
     }
@@ -181,6 +181,9 @@ export const getRolesOfUser = asyncHandler(async (req, res) => {
 // route POST /api/users/registerOrphanage
 // @access Public
 export const registerOrphanage = asyncHandler(async (req, res) => {
-  const results = await registerOrphanageAsync(req.files,JSON.parse(req.body.otherInfo));
+  const results = await registerOrphanageAsync(
+    req.files,
+    JSON.parse(req.body.otherInfo)
+  );
   return res.status(200).json(results);
 });
