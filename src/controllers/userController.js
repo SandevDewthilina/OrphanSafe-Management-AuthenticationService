@@ -52,7 +52,6 @@ export const authUser = asyncHandler(async (req, res) => {
 
       if (!role) return res.status(401).json("no roles found for user");
 
-      if (role === 'socialWorker')
 
       generateJWT(res, {
         userId: user.Id,
