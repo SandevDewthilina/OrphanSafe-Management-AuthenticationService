@@ -11,7 +11,8 @@ import {
   updateRole,
   assignUserToRole,
   getUsersInRole,
-  getRolesOfUser
+  getRolesOfUser,
+  registerOrphanage
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -19,6 +20,7 @@ const router = express.Router();
 
 router.post("/auth", authUser);
 router.post("/register", registerUser);
+router.post("/registerOrphanage", registerOrphanage);
 router.post("/logout", logoutUser);
 router
   .route("/profile")

@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-import DatabaseHandler from "../lib/database/DatabaseHandler.js";
 import {
   getUserByEmailAsync,
   insertUserAsync,
@@ -11,6 +10,7 @@ import {
   assignUserToRoleAsync,
   getUsersInRoleAsync,
   getRolesOfUserAsync,
+  registerOrphanageAsync
 } from "../services/userService.js";
 import {
   comparePassword,
@@ -49,8 +49,7 @@ export const authUser = asyncHandler(async (req, res) => {
       const results = await getRolesOfUserAsync(user.Id);
       const role = results[0];
 
-      if (!role)
-        return res.status(401).json('no roles found for user') 
+      if (!role) return res.status(401).json("no roles found for user");
 
       generateJWT(res, {
         userId: user.Id,
@@ -206,4 +205,12 @@ export const getRolesOfUser = asyncHandler(async (req, res) => {
   const results = await getRolesOfUserAsync(req.query.userId);
   if (results[0]) return res.status(200).json(results[0]);
   return res.status(404).json("no roles for user");
+});
+
+// @desc register orphanage
+// route POST /api/users/registerOrphanage
+// @access Public
+export const registerOrphanage = asyncHandler(async (req, res) => {
+  const results = await registerOrphanageAsync(req.body);
+  return res.status(200).json(results);
 });
