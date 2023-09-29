@@ -55,8 +55,9 @@ export const authUser = asyncHandler(async (req, res) => {
       generateJWT(res, {
         userId: user.Id,
         email: user.Email,
-        roleId: "1",
+        roleId: role.Id,
         roleName: role.Name,
+        orphanageId: user.OrphanageId,
       });
 
       await unicastNotificationAsync(
