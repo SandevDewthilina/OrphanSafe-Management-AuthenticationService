@@ -12,6 +12,7 @@ import {
   getRolesOfUserAsync,
   registerOrphanageAsync,
   registerUserAsync,
+  verifyEmailAsync,
 } from "../services/userService.js";
 import {
   comparePassword,
@@ -36,13 +37,18 @@ export const authUser = asyncHandler(async (req, res) => {
   } else {
     // get user info
     const user = results[0];
+
+    if (!user.EmailConfirmed) {
+      throw new Error("Email is not verfied");
+    }
+
     // match passwords
     const matched = await comparePassword(password, user.PasswordHash);
 
     if (!matched) {
       // incorrect passwords
       res.status(401);
-      throw new Error("Invalid credent");
+      throw new Error("Invalid credentials");
     } else {
       // login success
       // create JWT and pass through cookie
@@ -186,4 +192,15 @@ export const registerOrphanage = asyncHandler(async (req, res) => {
     JSON.parse(req.body.otherInfo)
   );
   return res.status(200).json(results);
+});
+
+export const verifyEmail = asyncHandler(async (req, res) => {
+  const results = await verifyEmailAsync(req.query.email);
+  return res.redirect("https://orphansafe-management.ecodeit.com");
+});
+
+
+export const verifyEmailByCode = asyncHandler(async (req, res) => {
+  const results = await verifyEmailAsync(req.query.email);
+  return res.status(200).json(results)
 });

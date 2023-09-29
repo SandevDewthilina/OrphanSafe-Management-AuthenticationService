@@ -13,6 +13,8 @@ import {
   getUsersInRole,
   getRolesOfUser,
   registerOrphanage,
+  verifyEmail,
+  verifyEmailByCode
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/s3UploadMiddleware.js";
@@ -21,6 +23,8 @@ const router = express.Router();
 
 router.post("/auth", authUser);
 router.post("/register", registerUser);
+router.get("/verifyEmail", verifyEmail)
+router.get("/verifyEmailByCode", verifyEmailByCode)
 router.post(
   "/registerOrphanage",
   upload.fields([
