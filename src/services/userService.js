@@ -2,7 +2,7 @@ import DatabaseHandler from "../lib/database/DatabaseHandler.js";
 import { generatePassword } from "../utils/index.js";
 import { RPCRequest } from "../lib/rabbitmq/index.js";
 import { DOCUMENT_SERVICE_RPC } from "../config/index.js";
-import {uploadSingleFileAsync} from '../lib/aws/index.js'
+import { uploadSingleFileAsync } from "../lib/aws/index.js";
 
 export const getUserByEmailAsync = async (email) => {
   return await DatabaseHandler.executeSingleQueryAsync(
@@ -233,16 +233,21 @@ export const registerOrphanageAsync = async (
     if (!newOrphanageId) {
       throw new Error("orphanage not created");
     }
-
-    files.map(async (file) => await uploadSingleFileAsync(`orphanageFiles/${newOrphanageId}/`, files[0]))
+    for (const fieldName in files) {
+      const file = files[fieldName][0];
+      await uploadSingleFileAsync(
+        `orphanageFiles/${newOrphanageId}/${fieldName}/`,
+        file
+      );
+    }
 
     const hashedPassword = await generatePassword("admin123");
 
     const result2 = await client.query(
       `INSERT INTO "User"(
-       "Username", "Name", "Email","PhoneNumber", "OrphanageId", "Address", "NIC",
-       "Gender", "DOB", "PasswordHash")
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING "Id";`,
+        "Username", "Name", "Email","PhoneNumber", "OrphanageId", "Address", "NIC",
+        "Gender", "DOB", "PasswordHash")
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING "Id";`,
       [
         user_username,
         user_name,

@@ -23,7 +23,11 @@ router.post("/auth", authUser);
 router.post("/register", registerUser);
 router.post(
   "/registerOrphanage",
-  upload.array("file"),
+  upload.fields([
+    {name: 'regCert'},
+    {name: 'housePlan'},
+    {name: 'landReport'}
+  ]),
   registerOrphanage
 );
 router.post("/logout", logoutUser);
