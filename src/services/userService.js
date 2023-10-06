@@ -103,7 +103,6 @@ export const updateUserAsync = async ({
   username,
   name,
   phoneNumber,
-  hashedPassword,
   orphanageId,
   address,
   nic,
@@ -113,14 +112,13 @@ export const updateUserAsync = async ({
   return await DatabaseHandler.executeSingleQueryAsync(
     `UPDATE "User" SET
     "Username"=$1, "Name"=$2, "Email"=$3,"PhoneNumber"=$4,
-    "PasswordHash"=$5, "OrphanageId"=$6, "Address"=$7,
-    "NIC"=$8, "Gender"=$9, "DOB"=$10 WHERE "Id" = $11 RETURNING *`,
+    "OrphanageId"=$5, "Address"=$6,
+    "NIC"=$7, "Gender"=$8, "DOB"=$9 WHERE "Id" = $10 RETURNING *`,
     [
       username,
       name,
       email,
-      phoneNumber,
-      hashedPassword,
+      phoneNumber,    
       orphanageId,
       address,
       nic,
