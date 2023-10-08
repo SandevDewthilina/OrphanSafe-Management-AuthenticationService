@@ -100,7 +100,6 @@ export const getUserByIdAsync = async (id) => {
 export const updateUserAsync = async ({
   id,
   email,
-  username,
   name,
   phoneNumber,
   orphanageId,
@@ -111,11 +110,10 @@ export const updateUserAsync = async ({
 }) => {
   return await DatabaseHandler.executeSingleQueryAsync(
     `UPDATE "User" SET
-    "Username"=$1, "Name"=$2, "Email"=$3,"PhoneNumber"=$4,
-    "OrphanageId"=$5, "Address"=$6,
-    "NIC"=$7, "Gender"=$8, "DOB"=$9 WHERE "Id" = $10 RETURNING *`,
+    "Name"=$1, "Email"=$2,"PhoneNumber"=$3,
+    "OrphanageId"=$4, "Address"=$5,
+    "NIC"=$6, "Gender"=$7, "DOB"=$8 WHERE "Id" = $9 RETURNING *`,
     [
-      username,
       name,
       email,
       phoneNumber,    
