@@ -23,14 +23,14 @@ const router = express.Router();
 
 router.post("/auth", authUser);
 router.post("/register", registerUser);
-router.get("/verifyEmail", verifyEmail);
-router.get("/verifyEmailByCode", verifyEmailByCode);
+router.get("/verifyEmail", verifyEmail)
+router.get("/verifyEmailByCode", verifyEmailByCode)
 router.post(
   "/registerOrphanage",
   upload.fields([
-    { name: "regCert" },
-    { name: "housePlan" },
-    { name: "landReport" },
+    {name: 'regCert'},
+    {name: 'housePlan'},
+    {name: 'landReport'}
   ]),
   registerOrphanage
 );
