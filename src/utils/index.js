@@ -11,13 +11,14 @@ const comparePassword = async (originalPassword, hashPassword) => {
   return await bcrypt.compare(originalPassword, hashPassword);
 };
 
-const generateJWT = (res, { userId, email, roleId, roleName }) => {
+const generateJWT = (res, { userId, email, roleId, roleName, orphanageId }) => {
   const token = jwt.sign(
     {
       userId: userId,
       email: email,
       roleId: roleId,
       roleName: roleName,
+      orphanageId: orphanageId,
     },
     JWT_SECRET,
     {
@@ -34,7 +35,7 @@ const generateJWT = (res, { userId, email, roleId, roleName }) => {
 };
 
 const verifyJWT = (token) => {
-  return jwt.verify(token, JWT_SECRET)
+  return jwt.verify(token, JWT_SECRET);
 };
 
 export { generatePassword, comparePassword, generateJWT, verifyJWT };
