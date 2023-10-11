@@ -294,7 +294,7 @@ export const registerOrphanageAsync = async (
               button: {
                 color: "#0d8aa3",
                 text: "Verify Email",
-                link: `http://localhost:3000/api/users/verifyEmail?email=${user_email}`,
+                link: `https://orphansafe-management.ecodeit.com/api/users/verifyEmail?email=${user_email}`,
               },
             },
             outro:

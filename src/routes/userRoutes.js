@@ -14,7 +14,7 @@ import {
   getRolesOfUser,
   registerOrphanage,
   verifyEmail,
-  verifyEmailByCode
+  verifyEmailByCode,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/s3UploadMiddleware.js";
