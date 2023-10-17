@@ -7,7 +7,7 @@ import { RPCObserver } from "./lib/rabbitmq/index.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import { PORT, AUTH_SERVICE_RPC } from "./config/index.js";
 
-const app = express();
+export const app = express();
 app.use(
   cors({
     origin: "https://orphansafe-management.ecodeit.com",
